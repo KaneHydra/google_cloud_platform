@@ -360,9 +360,9 @@ Schema 只有一個欄位 comment, STRING, NULLABLE
 ```sql
 INSERT INTO `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_table` (comment)
 VALUES
-  ('This is a test sentence for sentiment analysis.'),
-  ('I love using Google Cloud services.'),
-  ('Sometimes the documentation can be a bit confusing.');
+  ('C8763'),
+  ('為什麼要演奏春日影！'),
+  ('珍惜生命，我用Python。');
 ```
 
 ![](https://i.imgur.com/iqO5kuc.png)
