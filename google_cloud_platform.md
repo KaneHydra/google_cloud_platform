@@ -271,3 +271,29 @@ FROM ML.GENERATE_TEXT(
 ```
 
 ![](https://i.imgur.com/EVKis78.png)
+
+### flatten json output
+
+```sql
+SELECT *
+FROM ML.GENERATE_TEXT(
+    MODEL `ai_dataset_25_0719_us.llm_model`,
+    (
+        SELECT
+        CONCAT(
+            'Extract the key words from the text bellow: ',review
+        ) AS prompt,
+        *
+        FROM `bigquery-public-data.imdb.reviews`
+        LIMIT 5
+    ),
+    -- 控制隨機性
+    STRUCT(
+        0.2 AS temperature,
+        100 AS max_output_tokens,
+        TRUE AS flatten_json_output
+    )
+);
+```
+
+![](https://i.imgur.com/Q3WKiqd.png)
