@@ -168,7 +168,7 @@ ORDER BY total DESC
 LIMIT 100;
 ```
 
-![](https://imgur.com/a/UMP1PTt)
+![](https://i.imgur.com/UMP1PTt.png)
 
 -   儲存查詢結果
 
@@ -211,7 +211,7 @@ MODEL 前面是 dataset 名稱,
 
 後面接`.llm_model`
 
-![](https://imgur.com/a/pWrbsJi)
+![](https://i.imgur.com/pWrbsJi.png)
 
 建完之後複製模型ID `ai_dataset_25_0719_us.llm_model`
 
@@ -241,7 +241,7 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
-![](https://imgur.com/a/cks6lTm)
+![](https://i.imgur.com/cks6lTm.png)
 
 下其他 prompt 查詢
 
@@ -268,4 +268,4 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
-![](https://imgur.com/a/AVxuSO0)
+![](https://i.imgur.com/AVxuSO0.png)
