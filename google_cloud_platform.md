@@ -448,7 +448,7 @@ FROM ML.UNDERSTAND_TEXT(
 ]
 ```
 
-## 人口普查分類器
+## [人口普查分類器](https://hackmd.io/@4HupY3slSPWy7VByk-0aXA/Sy0j8oUdR)
 
 ### 檢查數據
 
@@ -517,3 +517,35 @@ WHERE dataframe = 'training';
 ```
 
 ![圖](https://i.imgur.com/zbyRCBg.png)
+
+### 評估模型性能
+
+```sql
+SELECT *
+FROM ML.EVALUATE (
+    MODEL `ai_dataset_25_0719_us.census_model`,
+    (
+        SELECT *
+        FROM `ai_dataset_25_0719_us.input_data`
+        WHERE dataframe = 'evaluation'
+    )
+);
+```
+
+![圖](https://i.imgur.com/0VRq7fR.png)
+
+### 使用模型進行預測
+
+```sql
+SELECT *
+FROM ML.PREDICT (
+    MODEL `ai_dataset_25_0719_us.census_model`,
+    (
+        SELECT *
+        FROM `ai_dataset_25_0719_us.input_data`
+        WHERE dataframe = 'prediction'
+    )
+);
+```
+
+![圖](https://i.imgur.com/ngnCDQN.png)
