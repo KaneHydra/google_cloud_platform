@@ -217,7 +217,7 @@ MODEL 前面是 dataset 名稱,
 
 建完之後複製模型ID `ai_dataset_25_0719_us.llm_model`
 
-## 查詢模型
+## query model via prompt
 
 ```sql
 SELECT
@@ -245,7 +245,7 @@ FROM ML.GENERATE_TEXT(
 
 ![](https://i.imgur.com/rSc081u.png)
 
-### more prompt 查詢
+### query more prompt
 
 ```sql
 SELECT
@@ -274,6 +274,8 @@ FROM ML.GENERATE_TEXT(
 
 ### flatten json output
 
+記得先把查詢欄位移除, `flatten_json_output` 會自己產生欄位
+
 ```sql
 SELECT *
 FROM ML.GENERATE_TEXT(
@@ -298,7 +300,7 @@ FROM ML.GENERATE_TEXT(
 
 ![](https://i.imgur.com/Q3WKiqd.png)
 
-### 情感分析
+### emotion analysis
 
 ```sql
 SELECT
@@ -327,3 +329,15 @@ FROM ML.GENERATE_TEXT(
 ```
 
 ![](https://i.imgur.com/1PBC8zj.png)
+
+## 語義分析
+
+### 建立 CLOUD_AI_NATURAL_LANGUAGE_V1 model
+
+```sql
+CREATE OR REPLACE MODEL `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_model`
+REMOTE WITH CONNECTION `projects/ai-project-25-0719/locations/us/connections/ai-vertexai-25-0719`
+OPTIONS (REMOTE_SERVICE_TYPE='CLOUD_AI_NATURAL_LANGUAGE_v1');
+```
+
+![](https://i.imgur.com/E9YgmXU.png)
