@@ -297,3 +297,33 @@ FROM ML.GENERATE_TEXT(
 ```
 
 ![](https://i.imgur.com/Q3WKiqd.png)
+
+### 情感分析
+
+```sql
+SELECT
+  ml_generate_text_result['predictions'][0]['content'] AS generated_text,
+  ml_generate_text_result['predictions'][0]['safetyAttributes']
+    AS safety_attributes,
+  * EXCEPT (ml_generate_text_result)
+FROM ML.GENERATE_TEXT(
+  MODEL `ai_dataset_25_0719_us.llm_model`,
+  (
+      SELECT
+      CONCAT(
+          'perform sentiment analysis on the following text, return one the following categories: positive, negative: ',
+          review
+      ) AS prompt,
+      *
+      FROM `bigquery-public-data.imdb.reviews`
+      LIMIT 5
+  ),
+  -- 控制隨機性
+  STRUCT(
+      0.2 AS temperature,
+      100 AS max_output_tokens
+  )
+);
+```
+
+![](https://i.imgur.com/1PBC8zj.png)
