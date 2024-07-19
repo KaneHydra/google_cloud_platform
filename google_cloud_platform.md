@@ -1,10 +1,10 @@
 ---
-id: 20240719_google_cloud_platform
+id: google_cloud_platform
 aliases: []
 tags: []
 ---
 
-# 20240719 google cloud platform
+# google cloud platform
 
 [![hackmd-github-sync-badge](https://hackmd.io/-WctByEWQh2OJE99Thhggw/badge)](https://hackmd.io/-WctByEWQh2OJE99Thhggw)
 
@@ -127,6 +127,8 @@ BI 就是 business intelligence 商業應用分析
 
 ## 步驟
 
+上課內容參考:[使用远程模型和 ML.GENERATE_TEXT 函数生成文本](https://cloud.google.com/bigquery/docs/generate-text-tutorial?hl=zh-cn)
+
 -   GCP 帳號建立
 -   綁定付款帳號
 -   建立專案
@@ -243,7 +245,7 @@ FROM ML.GENERATE_TEXT(
 
 ![](https://i.imgur.com/rSc081u.png)
 
-下其他 prompt 查詢
+### more prompt 查詢
 
 ```sql
 SELECT
