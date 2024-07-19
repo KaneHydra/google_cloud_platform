@@ -341,3 +341,39 @@ OPTIONS (REMOTE_SERVICE_TYPE='CLOUD_AI_NATURAL_LANGUAGE_v1');
 ```
 
 ![](https://i.imgur.com/E9YgmXU.png)
+
+### 建立 table 一次丟很多prompt 進去
+
+在 `ai_dataset_25_0719_us` 上面右鍵建立資料表
+
+資料表 `my_nlp_table`
+
+資料表類型 原生資料表
+
+Schema 只有一個欄位 comment, STRING, NULLABLE
+然後建立資料表
+
+![](https://i.imgur.com/ydsBIF2.png)
+
+### 插入 input 內容
+
+```sql
+INSERT INTO `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_table` (comment)
+VALUES
+  ('This is a test sentence for sentiment analysis.'),
+  ('I love using Google Cloud services.'),
+  ('Sometimes the documentation can be a bit confusing.');
+```
+
+![](https://i.imgur.com/iqO5kuc.png)
+
+### 理解文字內容
+
+```sql
+SELECT *
+FROM ML.UNDERSTAND_TEXT(
+  MODEL `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_model`,
+  { TABLE PROJECT_ID.DATASET_ID.TABLE_NAME | (QUERY) },
+  STRUCT('analyze_sentiment' AS nlu_option)
+);
+```
