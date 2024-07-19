@@ -6,6 +6,8 @@ tags: []
 
 # 20240719 google cloud platform
 
+[![hackmd-github-sync-badge](https://hackmd.io/-WctByEWQh2OJE99Thhggw/badge)](https://hackmd.io/-WctByEWQh2OJE99Thhggw)
+
 戴佳樺 Oscar 老師
 
 hgfd12000@gmail.com
@@ -166,6 +168,8 @@ ORDER BY total DESC
 LIMIT 100;
 ```
 
+![](https://imgur.com/a/UMP1PTt)
+
 -   儲存查詢結果
 
     -   儲存結果, 但是會佔用空間
@@ -207,6 +211,8 @@ MODEL 前面是 dataset 名稱,
 
 後面接`.llm_model`
 
+![](https://imgur.com/a/pWrbsJi)
+
 建完之後複製模型ID `ai_dataset_25_0719_us.llm_model`
 
 ## 查詢模型
@@ -235,6 +241,8 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
+![](https://imgur.com/a/cks6lTm)
+
 下其他 prompt 查詢
 
 ```sql
@@ -259,3 +267,5 @@ FROM ML.GENERATE_TEXT(
     )
 );
 ```
+
+![](https://imgur.com/a/AVxuSO0)
