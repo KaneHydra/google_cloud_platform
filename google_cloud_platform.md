@@ -549,3 +549,43 @@ FROM ML.PREDICT (
 ```
 
 ![圖](https://i.imgur.com/ngnCDQN.png)
+
+### 解釋預測結果
+
+```sql
+SELECT *
+FROM ML.PREDICT (
+    MODEL `ai_dataset_25_0719_us.census_model`,
+    (
+        SELECT *
+        FROM `ai_dataset_25_0719_us.input_data`
+        WHERE dataframe = 'evaluation'
+    ),
+    STRUCT(3 as top_k_features)
+);
+```
+
+### 建立全局解釋模型
+
+```sql
+CREATE OR REPLACE MODEL `ai_dataset_25_0719_us.census_model`
+OPTIONS(
+    model_type='LOGISTIC_REG',
+    auto_class_weights=TRUE,
+    enable_global_explain=TRUE,
+    input_label_cols=['income_bracket']
+) AS
+SELECT * EXCEPT(dataframe)
+FROM `ai_dataset_25_0719_us.input_data`
+WHERE dataframe = 'training';
+```
+
+## 清理資源
+
+1. 停用計費  
+   因為可能會引用外部工具,  
+   外部工具不知道你刪除專案,  
+   所以需要停用
+    - 導覽選項=>賬單=>ManageBillingAccount
+    - 專案右邊3個點=>停用計費功能
+2. Cloud總覽=>資訊主頁=>前往專案設定=>關閉
