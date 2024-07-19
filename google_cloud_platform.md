@@ -350,30 +350,39 @@ OPTIONS (REMOTE_SERVICE_TYPE='CLOUD_AI_NATURAL_LANGUAGE_v1');
 
 資料表類型 原生資料表
 
-Schema 只有一個欄位 comment, STRING, NULLABLE
+Schema有兩個
+`comment`, STRING, NULLABLE
+`text_content`, STRING, NULLABLE
+
 然後建立資料表
+
+![](https://i.imgur.com/eO3Wzzr.png)
 
 ![](https://i.imgur.com/ydsBIF2.png)
 
 ### 插入 input 內容
 
 ```sql
-INSERT INTO `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_table` (comment)
+INSERT INTO `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_table` (text_content)
 VALUES
-  ('C8763'),
+  ('你什麼時候產生了我使用鏡花水月的錯覺'),
   ('為什麼要演奏春日影！'),
   ('珍惜生命，我用Python。');
 ```
 
-![](https://i.imgur.com/iqO5kuc.png)
+![](https://i.imgur.com/P3lc37S.png)
 
-### 理解文字內容
+### 使用資料表內容 input 到模型裡面, 讓他理解文字內容
 
 ```sql
 SELECT *
 FROM ML.UNDERSTAND_TEXT(
-  MODEL `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_model`,
-  { TABLE PROJECT_ID.DATASET_ID.TABLE_NAME | (QUERY) },
-  STRUCT('analyze_sentiment' AS nlu_option)
+    MODEL `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_model`,
+    TABLE `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_table`,
+    STRUCT(
+        'analyze_sentiment' AS nlu_option
+    )
 );
 ```
+
+![](https://i.imgur.com/ZDpEs0q.png)
