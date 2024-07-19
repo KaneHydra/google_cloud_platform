@@ -170,7 +170,7 @@ ORDER BY total DESC
 LIMIT 100;
 ```
 
-![](https://i.imgur.com/XM2i0tC.png)
+![圖](https://i.imgur.com/XM2i0tC.png)
 
 -   儲存查詢結果
 
@@ -213,7 +213,7 @@ MODEL 前面是 dataset 名稱,
 
 後面接`.llm_model`
 
-![](https://i.imgur.com/f249D6w.png)
+![圖](https://i.imgur.com/f249D6w.png)
 
 建完之後複製模型ID `ai_dataset_25_0719_us.llm_model`
 
@@ -243,7 +243,7 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
-![](https://i.imgur.com/rSc081u.png)
+![圖](https://i.imgur.com/rSc081u.png)
 
 ### query more prompt
 
@@ -270,7 +270,7 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
-![](https://i.imgur.com/EVKis78.png)
+![圖](https://i.imgur.com/EVKis78.png)
 
 ### flatten json output
 
@@ -298,7 +298,7 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
-![](https://i.imgur.com/Q3WKiqd.png)
+![圖](https://i.imgur.com/Q3WKiqd.png)
 
 ### emotion analysis
 
@@ -328,7 +328,7 @@ FROM ML.GENERATE_TEXT(
 );
 ```
 
-![](https://i.imgur.com/1PBC8zj.png)
+![圖](https://i.imgur.com/1PBC8zj.png)
 
 ## 語義分析
 
@@ -340,7 +340,7 @@ REMOTE WITH CONNECTION `projects/ai-project-25-0719/locations/us/connections/ai-
 OPTIONS (REMOTE_SERVICE_TYPE='CLOUD_AI_NATURAL_LANGUAGE_v1');
 ```
 
-![](https://i.imgur.com/E9YgmXU.png)
+![圖](https://i.imgur.com/E9YgmXU.png)
 
 ### 建立 table 一次丟很多prompt 進去
 
@@ -356,9 +356,9 @@ Schema有兩個
 
 然後建立資料表
 
-![](https://i.imgur.com/eO3Wzzr.png)
+![圖](https://i.imgur.com/eO3Wzzr.png)
 
-![](https://i.imgur.com/ydsBIF2.png)
+![圖](https://i.imgur.com/ydsBIF2.png)
 
 ### 插入 input 內容
 
@@ -370,9 +370,9 @@ VALUES
   ('珍惜生命，我用Python。');
 ```
 
-![](https://i.imgur.com/P3lc37S.png)
+![圖](https://i.imgur.com/P3lc37S.png)
 
-### 使用資料表內容 input 到模型裡面, 讓他理解文字內容
+### 使用資料表內容 input 到模型裡面 進行語義分析
 
 ```sql
 SELECT *
@@ -385,4 +385,135 @@ FROM ML.UNDERSTAND_TEXT(
 );
 ```
 
-![](https://i.imgur.com/ZDpEs0q.png)
+![圖](https://i.imgur.com/ZDpEs0q.png)
+
+```json
+[
+    {
+        "ml_understand_text_result": "{\"document_sentiment\":{\"magnitude\":0.1,\"score\":0.1},\"language\":\"zh\",\"sentences\":[{\"sentiment\":{\"magnitude\":0.1,\"score\":0.1},\"text\":{\"begin_offset\":-1,\"content\":\"珍惜生命，我用Python。\"}}]}",
+        "ml_understand_text_status": "",
+        "comment": null,
+        "text_content": "珍惜生命，我用Python。"
+    },
+    {
+        "ml_understand_text_result": "{\"document_sentiment\":{\"magnitude\":0.5,\"score\":-0.5},\"language\":\"zh-Hant\",\"sentences\":[{\"sentiment\":{\"magnitude\":0.5,\"score\":-0.5},\"text\":{\"begin_offset\":-1,\"content\":\"你什麼時候產生了我使用鏡花水月的錯覺\"}}]}",
+        "ml_understand_text_status": "",
+        "comment": null,
+        "text_content": "你什麼時候產生了我使用鏡花水月的錯覺"
+    },
+    {
+        "ml_understand_text_result": "{\"document_sentiment\":{\"magnitude\":0.5,\"score\":-0.5},\"language\":\"zh-Hant\",\"sentences\":[{\"sentiment\":{\"magnitude\":0.5,\"score\":-0.5},\"text\":{\"begin_offset\":-1,\"content\":\"為什麼要演奏春日影！\"}}]}",
+        "ml_understand_text_status": "",
+        "comment": null,
+        "text_content": "為什麼要演奏春日影！"
+    }
+]
+```
+
+### 進行語法分析
+
+```sql
+SELECT *
+FROM ML.UNDERSTAND_TEXT(
+    MODEL `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_model`,
+    TABLE `ai-project-25-0719.ai_dataset_25_0719_us.my_nlp_table`,
+    STRUCT(
+        'analyze_syntax' AS nlu_option
+    )
+);
+```
+
+![圖](https://i.imgur.com/pgul9wB.png)
+
+```json
+[
+    {
+        "ml_understand_text_result": "{\"language\":\"zh\",\"sentences\":[{\"text\":{\"begin_offset\":-1,\"content\":\"珍惜生命，我用Python。\"}}],\"tokens\":[{\"dependency_edge\":{\"head_token_index\":4,\"label\":59},\"lemma\":\"珍惜\",\"part_of_speech\":{\"proper\":2,\"tag\":11},\"text\":{\"begin_offset\":-1,\"content\":\"珍惜\"}},{\"dependency_edge\":{\"label\":18},\"lemma\":\"生命\",\"part_of_speech\":{\"proper\":2,\"tag\":6},\"text\":{\"begin_offset\":-1,\"content\":\"生命\"}},{\"dependency_edge\":{\"head_token_index\":4,\"label\":32},\"lemma\":\"，\",\"part_of_speech\":{\"proper\":2,\"tag\":10},\"text\":{\"begin_offset\":-1,\"content\":\"，\"}},{\"dependency_edge\":{\"head_token_index\":4,\"label\":28},\"lemma\":\"我\",\"part_of_speech\":{\"person\":1,\"proper\":2,\"tag\":8},\"text\":{\"begin_offset\":-1,\"content\":\"我\"}},{\"dependency_edge\":{\"head_token_index\":4,\"label\":54},\"lemma\":\"用\",\"part_of_speech\":{\"proper\":2,\"tag\":11},\"text\":{\"begin_offset\":-1,\"content\":\"用\"}},{\"dependency_edge\":{\"head_token_index\":4,\"label\":18},\"lemma\":\"Python\",\"part_of_speech\":{\"proper\":1,\"tag\":12},\"text\":{\"begin_offset\":-1,\"content\":\"Python\"}},{\"dependency_edge\":{\"head_token_index\":4,\"label\":32},\"lemma\":\"。\",\"part_of_speech\":{\"proper\":2,\"tag\":10},\"text\":{\"begin_offset\":-1,\"content\":\"。\"}}]}",
+        "ml_understand_text_status": "",
+        "comment": null,
+        "text_content": "珍惜生命，我用Python。"
+    },
+    {
+        "ml_understand_text_result": "{\"language\":\"zh-Hant\",\"sentences\":[{\"text\":{\"begin_offset\":-1,\"content\":\"你什麼時候產生了我使用鏡花水月的錯覺\"}}],\"tokens\":[{\"dependency_edge\":{\"head_token_index\":3,\"label\":28},\"lemma\":\"你\",\"part_of_speech\":{\"person\":2,\"proper\":2,\"tag\":8},\"text\":{\"begin_offset\":-1,\"content\":\"你\"}},{\"dependency_edge\":{\"head_token_index\":2,\"label\":16},\"lemma\":\"什麼\",\"part_of_speech\":{\"proper\":2,\"tag\":8},\"text\":{\"begin_offset\":-1,\"content\":\"什麼\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":57},\"lemma\":\"時候\",\"part_of_speech\":{\"proper\":2,\"tag\":6},\"text\":{\"begin_offset\":-1,\"content\":\"時候\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":54},\"lemma\":\"產生\",\"part_of_speech\":{\"proper\":2,\"tag\":11},\"text\":{\"begin_offset\":-1,\"content\":\"產生\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":77},\"lemma\":\"了\",\"part_of_speech\":{\"aspect\":1,\"proper\":2,\"tag\":9},\"text\":{\"begin_offset\":-1,\"content\":\"了\"}},{\"dependency_edge\":{\"head_token_index\":6,\"label\":28},\"lemma\":\"我\",\"part_of_speech\":{\"person\":1,\"proper\":2,\"tag\":8},\"text\":{\"begin_offset\":-1,\"content\":\"我\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":11},\"lemma\":\"使用\",\"part_of_speech\":{\"proper\":2,\"tag\":11},\"text\":{\"begin_offset\":-1,\"content\":\"使用\"}},{\"dependency_edge\":{\"head_token_index\":9,\"label\":37},\"lemma\":\"鏡花水月\",\"part_of_speech\":{\"proper\":2,\"tag\":6},\"text\":{\"begin_offset\":-1,\"content\":\"鏡花水月\"}},{\"dependency_edge\":{\"head_token_index\":7,\"label\":46},\"lemma\":\"的\",\"part_of_speech\":{\"case\":5,\"proper\":2,\"tag\":9},\"text\":{\"begin_offset\":-1,\"content\":\"的\"}},{\"dependency_edge\":{\"head_token_index\":6,\"label\":18},\"lemma\":\"錯覺\",\"part_of_speech\":{\"proper\":2,\"tag\":6},\"text\":{\"begin_offset\":-1,\"content\":\"錯覺\"}}]}",
+        "ml_understand_text_status": "",
+        "comment": null,
+        "text_content": "你什麼時候產生了我使用鏡花水月的錯覺"
+    },
+    {
+        "ml_understand_text_result": "{\"language\":\"zh-Hant\",\"sentences\":[{\"text\":{\"begin_offset\":-1,\"content\":\"為什麼要演奏春日影！\"}}],\"tokens\":[{\"dependency_edge\":{\"head_token_index\":3,\"label\":43},\"lemma\":\"為\",\"part_of_speech\":{\"proper\":2,\"tag\":11},\"text\":{\"begin_offset\":-1,\"content\":\"為\"}},{\"dependency_edge\":{\"label\":36},\"lemma\":\"什麼\",\"part_of_speech\":{\"proper\":2,\"tag\":8},\"text\":{\"begin_offset\":-1,\"content\":\"什麼\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":8},\"lemma\":\"要\",\"part_of_speech\":{\"proper\":2,\"tag\":11},\"text\":{\"begin_offset\":-1,\"content\":\"要\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":54},\"lemma\":\"演奏\",\"part_of_speech\":{\"proper\":2,\"tag\":6},\"text\":{\"begin_offset\":-1,\"content\":\"演奏\"}},{\"dependency_edge\":{\"head_token_index\":5,\"label\":56},\"lemma\":\"春日\",\"part_of_speech\":{\"proper\":2,\"tag\":6},\"text\":{\"begin_offset\":-1,\"content\":\"春日\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":18},\"lemma\":\"影\",\"part_of_speech\":{\"proper\":2,\"tag\":13},\"text\":{\"begin_offset\":-1,\"content\":\"影\"}},{\"dependency_edge\":{\"head_token_index\":3,\"label\":32},\"lemma\":\"！\",\"part_of_speech\":{\"proper\":2,\"tag\":10},\"text\":{\"begin_offset\":-1,\"content\":\"！\"}}]}",
+        "ml_understand_text_status": "",
+        "comment": null,
+        "text_content": "為什麼要演奏春日影！"
+    }
+]
+```
+
+## 人口普查分類器
+
+### 檢查數據
+
+```sql
+SELECT
+    age,
+    workclass,
+    marital_status,
+    education_num,
+    occupation,
+    hours_per_week,
+    income_bracket,
+    functional_weight
+FROM `bigquery-public-data.ml_datasets.census_adult_income`
+LIMIT 100;
+```
+
+![圖](https://i.imgur.com/mqAQ4kF.png)
+
+### 準備樣本數據, 建立 VIEW
+
+```sql
+CREATE OR REPLACE VIEW
+`ai_dataset_25_0719_us.input_data` AS
+SELECT
+    age,
+    workclass,
+    marital_status,
+    education_num,
+    occupation,
+    hours_per_week,
+    income_bracket,
+    CASE
+        WHEN MOD(functional_weight, 10) < 8 THEN 'training'
+        WHEN MOD(functional_weight, 10) = 8 THEN 'evaluation'
+        WHEN MOD(functional_weight, 10) = 9 THEN 'prediction'
+    END AS dataframe
+FROM `bigquery-public-data.ml_datasets.census_adult_income`;
+```
+
+![圖](https://i.imgur.com/S9WORIC.png)
+
+#### 查詢 VIEW
+
+```sql
+SELECT * FROM `ai_dataset_25_0719_us.input_data`;
+```
+
+![圖](https://i.imgur.com/YQdGuxE.png)
+
+### 建立分類模型
+
+```sql
+CREATE OR REPLACE MODEL
+`ai_dataset_25_0719_us.census_model`
+OPTIONS(
+    model_type='LOGISTIC_REG',
+    auto_class_weights=TRUE,
+    data_split_method='NO_SPLIT',
+    input_label_cols=['income_bracket'],
+    max_iterations=15
+) AS
+SELECT * EXCEPT(dataframe)
+FROM `ai_dataset_25_0719_us.input_data`
+WHERE dataframe = 'training';
+```
+
+![圖](https://i.imgur.com/zbyRCBg.png)
