@@ -157,7 +157,7 @@ BI 就是 business intelligence 商業應用分析
     -   查看資料集
     -   左邊下面找到 usa names 展開
     -   點 `usa_1910_2013`
-    -   右邊點 DETAILS
+    -   右邊點 DETAILS 詳細資訊
     -   複製 Table ID `bigquery-public-data.usa_names.usa_1910_2013`
 -   查詢資料
     -   方法1 在左邊的 `usa_1910_2013` 上面點 Query
@@ -176,9 +176,10 @@ LIMIT 100;
 ![圖](https://i.imgur.com/XM2i0tC.png)
 
 -   儲存查詢結果
-
     -   儲存結果, 但是會佔用空間
-    -   儲存檢視表 `top100name`
+    -   儲存檢視表
+        -   資料集 `ai_dataset_25_0719_us`
+        -   資料表 `top100name`
 
 ## 建立Vertex模型
 
