@@ -141,12 +141,15 @@ BI 就是 business intelligence 商業應用分析
 -   位置格式
     -   專案ID.資料及ID.模型名稱or資料表名稱
 -   建立資料集
-    -   ID `ai_dataset_25_0719_us`
-        -   多地區
-        -   地區 US(多個美國地區)
-    -   ID `ai_dataset_25_0719_eu`
-        -   多地區
-        -   地區 EU(多個歐盟地區)
+    -   開啟 Big Query
+        -   點 Explorer 下面 Project 名稱右邊的三個點
+            -   點建立資料集
+                -   ID `ai_dataset_25_0719_us`
+                    -   多地區
+                    -   地區 US(多個美國地區)
+                -   ID `ai_dataset_25_0719_eu`
+                    -   多地區
+                    -   地區 EU(多個歐盟地區)
 -   新增公開資料集
     -   新增 往下拉
     -   公開資料集
