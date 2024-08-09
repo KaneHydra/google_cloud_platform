@@ -197,6 +197,7 @@ LIMIT 100;
 -   授予存取權
     -   新增主體, 貼剛剛的 Service Account ID
         -   指派角色 Vertex AI 使用者
+        -   新增其他角色 Vertex AI 自定程式碼服務代理 => 上課沒講，但後來發現實際上會用到
         -   新增其他角色 BigQuery Connection User
         -   新增其他角色 服務使用情形消費者
     -   儲存
@@ -558,7 +559,7 @@ FROM ML.PREDICT (
 
 ```sql
 SELECT *
-FROM ML.PREDICT (
+FROM ML.EXPLAIN_PREDICT (
     MODEL `ai_dataset_25_0719_us.census_model`,
     (
         SELECT *
